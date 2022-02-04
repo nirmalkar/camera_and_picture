@@ -4,7 +4,7 @@ import Button from "../Button";
 
 function Camera() {
     const [showCam, setShowCam] = React.useState(true);
-    const [isCamOn, setIsCamOn] = React.useState(false);
+    const [picture, setPicture] = React.useState([]);
 
     useEffect(() => {
         startCam();
@@ -17,7 +17,6 @@ function Camera() {
             audio: false,
         });
         video.srcObject = stream;
-        setIsCamOn(true);
     }
     function clickPicture() {
         let canvas = document.querySelector("#canvas");
@@ -29,9 +28,11 @@ function Camera() {
         let image_data_url = canvas?.toDataURL("image/jpeg");
         // data url of the image
         console.log(image_data_url);
+        setPicture([{ img: image_data_url }]);
     }
     function retake() {
         setShowCam(true);
+        setPicture([]);
     }
     return (
         <div>
@@ -49,13 +50,13 @@ function Camera() {
                 height="400px"
             ></canvas>
             <div>
-                <Button disabled={!isCamOn} onClick={() => clickPicture()}>
+                <Button
+                    disabled={picture.length}
+                    onClick={() => clickPicture()}
+                >
                     Click Photo
                 </Button>
-                <Button
-                    style={{ display: showCam ? "none" : "" }}
-                    onClick={retake}
-                >
+                <Button disabled={!picture.length} onClick={retake}>
                     Re Take
                 </Button>
             </div>

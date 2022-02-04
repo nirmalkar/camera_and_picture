@@ -2,36 +2,31 @@ import React, { useState } from "react";
 
 import Button from "../Button";
 
+import "./instructions.scss";
+
 function Instructions(props) {
-    const { nextStep } = props;
-    const [isPermissionGranted, setIsPermissionGranted] = useState(false);
-    navigator.permissions.query({ name: "camera" }).then((res) => {
-        if (res.state === "granted") {
-            setIsPermissionGranted(true);
-        }
-    });
-    const enableCam = async () => {
-        navigator.mediaDevices
-            .getUserMedia({ video: true })
-            .then((stream) => {
-                window.localStream = stream; // A
-                nextStep();
-            })
-            .catch((err) => {
-                console.log("u got an error:" + err);
-            });
-    };
+    const { nextStep, enableCam } = props;
     return (
-        <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat
-            praesentium similique omnis sunt. Eum quo fugit dolorem velit porro.
-            At exercitationem veritatis optio nemo ea dicta ut magni hic
-            maiores.
-            <Button
-                onClick={() => (isPermissionGranted ? nextStep() : enableCam())}
-            >
-                Next
-            </Button>
+        <div className="instructions-container">
+            <h3 className="heading">Instructions</h3>
+            <ul>
+                <li>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Fugiat praesentium similique omnis sunt.
+                </li>
+                <li>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Harum, eligendi!
+                </li>
+                <li>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Saepe, illo?
+                </li>
+            </ul>
+
+            <div className="instructions-next-button">
+                <Button onClick={() => nextStep()}>Next</Button>
+            </div>
         </div>
     );
 }
